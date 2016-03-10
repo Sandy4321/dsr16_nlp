@@ -16,6 +16,7 @@ We'll start by doing sentiment analysis using spaCy and Keras:
 * www.spacy.io : Our NLP library
 
 Further tasks:
+--------------
 
 * Classify questions, according to their answer type
 
