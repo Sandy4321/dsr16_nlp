@@ -2,3 +2,4 @@ spacy
 keras
 pathlib
 plac
+cython
