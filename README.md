@@ -10,6 +10,19 @@ pip install -r requirements.txt
 ./download_data.sh
 ```
 
+We'll start by doing sentiment analysis using spaCy and Keras:
+
+* www.keras.io : The most popular deep learning library (in any language)
+* www.spacy.io : Our NLP library
+
+Further tasks:
+
+* Classify questions, according to their answer type
+
+* Visual Question Answering: https://avisingh599.github.io/deeplearning/visual-qa/
+
+* Train a joke-making bot on the Reddit data set: https://archive.org/details/2015_reddit_comments_corpus
+
 Use the GloVe word vectors with spaCy
 -------------------------------------
 
