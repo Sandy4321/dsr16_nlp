@@ -1,0 +1,4 @@
+spacy
+keras
+pathlib
+plac
