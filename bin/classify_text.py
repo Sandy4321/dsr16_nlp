@@ -116,7 +116,7 @@ class ThincModel(object):
 def read_data(nlp, data_dir, classes=('pos', 'neg')):
     for class_id, class_name in enumerate(classes):
         for i, filename in enumerate((data_dir / class_name).iterdir()):
-            text = filename.open().read()
+            text = filename.open(encoding='utf8').read()
             doc = nlp(text)
             if len(doc) >= 1:
                 yield doc, class_id
