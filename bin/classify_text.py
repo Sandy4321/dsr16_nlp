@@ -78,7 +78,24 @@ class ThincModel(object):
     def Eg(self, doc, label=None):
         eg = self._eg
         eg.reset()
-        eg.features = [(0, token.orth, 1) for token in doc]
+
+        features = []
+        word_types = set()
+        i = 0
+        for token in doc[:-1]:
+            next_token = doc[i+1]
+
+            strings = (token.lower_, next_token.lower_)
+            key = hash_string('%s_%s' % strings)
+            feat_slot = 0
+            feat_value = 1
+            features.append(
+                (0, token.lower, 1))
+            features.append(
+                (feat_slot, key, feat_value))
+            i += 1
+
+        eg.features = features
         if label is not None:
             eg.costs = [clas != label for clas in range(self.nr_class)]
         return eg
@@ -90,12 +107,17 @@ class ThincModel(object):
         for i in range(n_iter):
             loss = 0
             random.shuffle(examples)
+            negation_count = 0
             for doc, label in examples:
                 eg = self.Eg(doc, label)
                 self._model.train_example(eg)
                 loss += eg.guess != label
+                if any(t.orth_ == 'not' for t in doc):
+                    negation_count += 1
+
             print(loss)
         self._model.end_training()
+        print("%d documents had negation" % negation_count)
 
     def evaluate(self, examples):
         total = 0
@@ -129,7 +151,7 @@ def read_data(nlp, data_dir, classes=('pos', 'neg')):
 )
 def main(corpus_dir, n_iter=4, use_keras=False):
     print("Loading spaCy")
-    nlp = spacy.en.English(parser=False, tagger=False, entity=False)
+    nlp = spacy.en.English(parser=False, tagger=True, entity=False)
     print("Processing training data")
     train_data = list(read_data(nlp, corpus_dir / 'train'))
     if use_keras:
