@@ -28,7 +28,7 @@ class KerasModel(object):
         self.model = Sequential()
         self.model.add(Embedding(vocab_size, widths[0]))
         self.model.add(TimeDistributedMerge(mode='ave'))
-        for width in range(widths[1:-1]):
+        for width in widths[1:-1]:
             layer = Dense(output_dim=hidden_width, init='he_normal', activation=ELU(1.0))
             self.model.add(layer)
         self.model.add(
